@@ -1,21 +1,17 @@
 import connectDB from '../../middleware/mongodb';
 import bcrypt from 'bcrypt';
 import User from '../../models/user';
-import moment from 'moment'
 const handler = async (req, res) => {
   if (req.method === 'POST') {
-    // Check if name, email or password is provided
     const { email, password } = req.body;
     if ( email && password) {
         try {
-          // Hash password to store it in DB
           const pass = await bcrypt.hash(password, 3)
           const user = new User({
             email,
             password:pass,
             createdAt:Date.now() 
           });
-          // Create new user
           const usercreated = await user.save();
           return res.status(200).send(usercreated);
         } catch (error) {
