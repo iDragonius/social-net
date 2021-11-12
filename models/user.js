@@ -5,7 +5,9 @@ var Schema = mongoose.Schema;
 const user = new Schema({
   email: {type: String,required: true,unique:true},
   password: {type: String,required: true},
-  createdAt:{type:String}
+  createdAt:{type:String},
+  activationLink:{type:String},
+  isActivated:{type:Boolean, default:false}
 });
 
 mongoose.models = {};
