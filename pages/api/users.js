@@ -1,22 +1,26 @@
 import connectDB from '../../middleware/mongodb';
 import User from '../../models/user';
+import jwt from 'jsonwebtoken'
 
-const fetch = async (req,res) =>{
-    if(req.method === 'GET'){
-        try {
-            const users = await User.find()
-            if(!users){
-                return res.status(404).json({error:'Пользователей не найдено'})
-            }
-            res.json(users)
-
-        } catch (e) {
-            console.log(e);
-        }
-
-    } else {
-        return res.status(500).json({error:'Не подходящий метод'})
+const fecth = async (req,res) =>{
+    const auth = req.headers.authorization
+    if(!auth) {
+        throw new Error('.1')
     }
+    const accessToken = auth.split(' ')[1]
+    if(!accessToken) {
+        throw new Error('.2')
+    }
+    const userData = jwt.verify(accessToken, process.env.JWT_REFRESH_SECRET);
+
+    if(!userData) {
+        throw new Error('.3')
+    }
+    const users = await User.find()
+    
+
+    res.json(users)
 }
 
-export default connectDB(fetch);
+
+export default connectDB(fecth);

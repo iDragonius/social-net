@@ -3,7 +3,15 @@ module.exports = {
   purge: ['./pages/**/*.{js,ts,jsx,tsx}', './components/**/*.{js,ts,jsx,tsx}'],
   darkMode: false, // or 'media' or 'class'
   theme: {
-    extend: {},
+    extend: {
+      height:{
+        "content":"max-content"
+      },
+      width:{
+        "content":"max-content",
+        "fill":"-webkit-fill-available"
+      }
+    },
   },
   variants: {
     extend: {},

@@ -4,6 +4,8 @@ import User from '../../models/user';
 import Token from '../../models/token';
 import jwt from 'jsonwebtoken'
 import { setCookies } from 'cookies-next';
+import UserInfo  from '../../models/userInfo'
+
 const login = async (req,res)=> {
     if(req.method = 'POST'){
         const {email, password} = req.body;
@@ -28,8 +30,8 @@ const login = async (req,res)=> {
             createdAt:dataUser.createdAt
         }
         const tokenModel = await Token.findOne({user:userDto.id})
-        const accessToken = jwt.sign(userDto, process.env.JWT_ACCESS_SECRET, {expiresIn: '60d'})
-        const refreshToken = jwt.sign(userDto, process.env.JWT_REFRESH_SECRET, {expiresIn: '15d'})
+        const accessToken = jwt.sign(userDto, process.env.JWT_ACCESS_SECRET, {expiresIn: '15d'})
+        const refreshToken = jwt.sign(userDto, process.env.JWT_REFRESH_SECRET, {expiresIn: '60d'})
         const tokens = {
         accessToken,
         refreshToken
@@ -42,10 +44,10 @@ const login = async (req,res)=> {
             await tokenModel.save()
             userToken = tokenModel
         }
-      
+        const userInfos = await UserInfo.findOne({user:userDto.id})
         setCookies('refreshToken', tokens.refreshToken, {req,res,maxAge: 30*24*60*60*100, httpOnly: true})
 
-        res.json({...tokens,userInfo:userDto})
+        res.json({...tokens,userInfo:userDto, userAbout:userInfos})
     } else {
         res.status(500).json({error:'Не подходящий метод'})
     }

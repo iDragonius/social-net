@@ -7,19 +7,12 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { Context } from './_app'
 import { observer } from 'mobx-react-lite'
-const activation = () => {
+import $api from '../http'
+const forgot = () => {
     const {store} = useContext(Context)
     const router = useRouter()
-    const activationRef = useRef()
-    const activate = async (e) =>{
-        e.preventDefault()
-        await axios.get(`/api/activation/${activationRef.current.value.trim()}`)
-                    .then((response)=>{
-                        if(response.status === 200){
-                            router.push('/login')
-                        }
-                    }).catch((e)=>console.log(e))
-    }
+    const emailRef = useRef()
+    
     useEffect( ()=>{
         store.checkAuth().then(()=>{
            if(store.isAuth){
@@ -29,6 +22,15 @@ const activation = () => {
         })
        
      },[])
+
+     const forgotPass = async(e) =>{
+         e.preventDefault()
+        $api.post('/forgot',{
+            email:emailRef.current.value
+        }).then((response)=>{
+            console.log(response.data);
+        })
+     }
 
      if(store.isLoading){
         return(
@@ -41,20 +43,20 @@ const activation = () => {
     return (
         <div className="flex flex-col items-center justify-center min-h-screen py-2 bg-indigo-800    ">
             <Head>
-              <title>Activation</title>
+              <title>Forgot password</title>
               <link rel="icon" href="/favicon.ico" />
             </Head>
-            <div className = 'font-mono text-3xl text-white font-bold' >Activation</div>
+            <div className = 'font-mono text-3xl text-white font-bold' >Please write an email from your account</div>
             <form  action = '' className = 'flex flex-col '>
               <input 
                 type='text' 
-                placeholder= 'Code' 
+                placeholder= 'Email' 
                 className = 'transition duration-300 px-10 py-5 text-blue-800 placeholder-blue-700 font-bold font-mono text-xl rounded-xl bg-white mb-10 focus:bg-blue-900 focus:text-white outline-none mt-10'
-                ref={activationRef}
+                ref={emailRef}
                 />
               
-                <button onClick={activate} className = 'transition duration-300 px-10 py-5 bg-gray-100 rounded-xl font-semibold font-mono text-2xl focus:bg-blue-900 outline-none text-blue-500 focus:text-white'   >
-                    Activate account
+                <button onClick={forgotPass} className = 'transition duration-300 px-10 py-5 bg-gray-100 rounded-xl font-semibold font-mono text-2xl focus:bg-blue-900 outline-none text-blue-500 focus:text-white'   >
+                    Send mail with link
                 </button>
                 
               
@@ -65,4 +67,4 @@ const activation = () => {
     )
 }
 
-export default observer(activation)
+export default observer(forgot)

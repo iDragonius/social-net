@@ -7,6 +7,7 @@ import validator from 'validator';
 import MailService from '../../services/MailService';
 import jwt from 'jsonwebtoken'
 import {  setCookies } from 'cookies-next';
+import UserInfo  from '../../models/userInfo'
 const handler = async (req, res) => {
   if (req.method === 'POST') {
     const { email, password } = req.body;
@@ -26,25 +27,24 @@ const handler = async (req, res) => {
           if(checkhMail){
             return res.status(400).json({message:'такой пользователь уже существует'})
           }
-          const userInfo = await User.create({ email:email,password:pass,createdAt:Date.now(),activationLink:activationLink})
+          const userInfo2 = await User.create({ email:email,password:pass,createdAt:Date.now(),activationLink:activationLink})
           const userDto = {
-            email:userInfo.email,
-            id:userInfo._id,
-            isActivated:userInfo.isActivated,
-            createdAt:userInfo.createdAt
+            email:userInfo2.email,
+            id:userInfo2._id,
+            isActivated:userInfo2.isActivated,
+            createdAt:userInfo2.createdAt
           }
-          const accessToken = jwt.sign(userDto, process.env.JWT_ACCESS_SECRET, {expiresIn: '60d'})
-          const refreshToken = jwt.sign(userDto, process.env.JWT_REFRESH_SECRET, {expiresIn: '15d'})
+          const accessToken = jwt.sign(userDto, process.env.JWT_ACCESS_SECRET, {expiresIn: '15d'})
+          const refreshToken = jwt.sign(userDto, process.env.JWT_REFRESH_SECRET, {expiresIn: '60d'})
           const tokens = {
             accessToken,
             refreshToken
           }
           await MailService.sendActivationMail(email, activationLink)
-          await userInfo.save();
-          const TokenModel =await Token.create({user:userInfo._id, refreshToken:tokens.refreshToken})
-          await TokenModel.save()
-          
-          return res.status(200).send({...tokens, userInfo});
+          await userInfo2.save();
+          const TokenModel =await Token.create({user:userDto.id, refreshToken:tokens.refreshToken})
+          const UserInfos = await UserInfo.create({user:userDto.id})
+          return res.json({status:'correct'});
         } catch (error) {
           return res.status(500).send(error.message);
         }

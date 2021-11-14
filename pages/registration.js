@@ -1,35 +1,49 @@
-import React, {useState, useRef} from 'react'
+import React, {useState, useRef, useContext, useEffect} from 'react'
 import axios  from 'axios'
 import Head from 'next/head'
 import Navbar from '../components/Navbar'
 import { useRouter } from 'next/router'
-import $api from '../http/index'
+import { Context } from './_app'
+import { observer } from 'mobx-react-lite'
+
 const Registration = () => {
+    const {store} = useContext(Context)
     const emailRef =useRef()
     const passwordRef =useRef()
     const router = useRouter()
     const [status, setStatus] = useState(true)
     const regUser = async (e) =>{
-        e.preventDefault()
+      e.preventDefault()
 
-        await $api.post('http://localhost:3000/api/registration',{
-            email:emailRef.current.value,
-            password:passwordRef.current.value
+      store.registration(emailRef.current.value, passwordRef.current.value) 
+              .then(()=>{
+                if(store.status === 200){
+                  router.push('/activation')
+                } else {
+                  setStatus(false)
+                }
+              })
+      }
+
+      useEffect( ()=>{
+        store.checkAuth().then(()=>{
+           if(store.isAuth){
+             router.push('/')
+             
+           }
         })
-            .then((response)=>{
-              if(response.status === 200){
-                router.push('/activation')
-              } else {
-                setStatus(false)
-              }
-            })
-            .catch(function (error) {
-              setStatus(false)
+       
+     },[])
 
-            });
+     if(store.isLoading){
+      return(
+        <div className='bg-indigo-800 h-screen flex justify-center items-center' >
+            <h1 className = 'text-3xl text-white font-bold'>Loading....</h1>
+        </div>
+      )
     }
     return (
-        <div className="flex flex-col items-center justify-center min-h-screen py-2 bg-blue-500 ">
+        <div className="flex flex-col items-center justify-center min-h-screen py-2 bg-indigo-800 ">
             <Head>
               <title>Registration</title>
               <link rel="icon" href="/favicon.ico" />
@@ -73,5 +87,5 @@ const Registration = () => {
     )
 }
 
-export default Registration
+export default observer(Registration)
 

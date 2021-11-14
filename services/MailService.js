@@ -29,6 +29,22 @@ class MailService {
                 `
         })
     }
+
+    async sendPasswordResetMail(to, link) {
+        await this.transporter.sendMail({
+            from: process.env.SMTP_USER,
+            to,
+            subject: 'Password Reset on ' + process.env.CLIENT_URL,
+            text: '',
+            html:
+                `
+                    <div>
+                        <h1>Password Reset link</h1>
+                        <a href='${link}'>${link}</a>
+                    </div>
+                `
+        })
+    }
 }
 
 module.exports = new MailService();

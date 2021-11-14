@@ -3,7 +3,7 @@ import Token from "../../models/token";
 import User from "../../models/user";
 import jwt from "jsonwebtoken"
 import {  setCookies } from 'cookies-next';
-
+import UserInfo from '../../models/userInfo'
 const refresh = async (req,res) =>{
     if(req.method === 'GET'){
         const {refreshToken} = req.cookies
@@ -25,8 +25,8 @@ const refresh = async (req,res) =>{
             isActivated:userDB.isActivated,
             createdAt:userDB.createdAt
           }
-        const accessToken = jwt.sign(userDto, process.env.JWT_ACCESS_SECRET, {expiresIn: '60d'})
-        const refresh = jwt.sign(userDto, process.env.JWT_REFRESH_SECRET, {expiresIn: '15d'})
+          const accessToken = jwt.sign(userDto, process.env.JWT_ACCESS_SECRET, {expiresIn: '15d'})
+          const refresh = jwt.sign(userDto, process.env.JWT_REFRESH_SECRET, {expiresIn: '60d'})
         const tokens = {
             accessToken,
             refresh
@@ -35,7 +35,9 @@ const refresh = async (req,res) =>{
         tokenData.refreshToken = tokens.refresh;
         await tokenData.save();
         setCookies('refreshToken', tokens.refresh, {req,res,maxAge: 30*24*60*60*100, httpOnly: true})
-        res.json({refreshToken:tokens.refresh,accessToken:tokens.accessToken, userInfo: userDto}) 
+        const userInfos = await UserInfo.findOne({user:userDto.id})
+
+        res.json({refreshToken:tokens.refresh,accessToken:tokens.accessToken, userInfo: userDto, userAbout:userInfos}) 
     }else {
         throw new Error('wrong method')
     }

@@ -7,7 +7,8 @@ const user = new Schema({
   password: {type: String,required: true},
   createdAt:{type:String},
   activationLink:{type:String},
-  isActivated:{type:Boolean, default:false}
+  isActivated:{type:Boolean, default:false},
+  passwordResetLink:{type:String}
 });
 
 mongoose.models = {};
