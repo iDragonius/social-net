@@ -7,8 +7,10 @@ const userInfo = new Schema({
   nickname: {type: String},
   name: {type: String},
   surname:{type:String},
-  birthday:{type:Date},
-  gender:{type:String, default:'unknown'}
+  birthday:{type:String},
+  gender:{type:String, default:'Unknown'},
+  img: {type:String},
+  lastChange:{type:String}
 });
 
 mongoose.models = {};

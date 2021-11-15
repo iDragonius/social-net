@@ -6,7 +6,6 @@ import { v4 as uuidv4 } from 'uuid';
 import validator from 'validator';
 import MailService from '../../services/MailService';
 import jwt from 'jsonwebtoken'
-import {  setCookies } from 'cookies-next';
 import UserInfo  from '../../models/userInfo'
 const handler = async (req, res) => {
   if (req.method === 'POST') {

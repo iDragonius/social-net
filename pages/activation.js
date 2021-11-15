@@ -1,12 +1,13 @@
 import React, {useContext, useRef, useEffect} from 'react'
 import axios  from 'axios'
 import Head from 'next/head'
-import Navbar from '../components/Navbar'
+import Navbar from '../components/navbar/Navbar'
 import validator from 'validator'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { Context } from './_app'
 import { observer } from 'mobx-react-lite'
+import Later from '../components/Later'
 const activation = () => {
     const {store} = useContext(Context)
     const router = useRouter()
@@ -56,7 +57,7 @@ const activation = () => {
                 <button onClick={activate} className = 'transition duration-300 px-10 py-5 bg-gray-100 rounded-xl font-semibold font-mono text-2xl focus:bg-blue-900 outline-none text-blue-500 focus:text-white'   >
                     Activate account
                 </button>
-                
+                <Later/>
               
               
           </form>

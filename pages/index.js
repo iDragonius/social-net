@@ -1,11 +1,8 @@
 import React, {useContext, useEffect, useState} from 'react'
 import Head from 'next/head'  
 import Link from 'next/link'
-import {API_URL} from '../http/index'
-import axios from 'axios'
-import AuthEl from '../components/AuthEl'
-import NavEl from '../components/NavEl'
-import moment from 'moment'
+import AuthEl from '../components/navbar/AuthEl'
+import NavEl from '../components/navbar/NavEl'
 import { Context } from './_app'
 import { observer } from 'mobx-react-lite'
 import $api from '../http/index'
@@ -35,23 +32,26 @@ const  Home=()=> {
     )
   }
   return (
-    <div className="  h-screen bg-gray-300">
+    <div className="h-screen bg-gray-300">
       <Head>
-        <title>Next</title>
+        <title>noFace</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className = 'flex justify-end p-3 bg-indigo-800  shadow-xl '>
-        {store.isAuth ? <AuthEl type={'home'}/> : <NavEl/>}
+      <div className='flex justify-between p-3 bg-indigo-800  shadow-lg px-3'>
+        <h1 className='text-3xl font-bold text-white p-1'>noFace</h1>
+        <div className = ' flex  '>
+          {store.isAuth ? <AuthEl type={'home'}/> : <NavEl/>}
+
+        </div>
+      </div>
+      <div className='container flex justify-center  mt-10  mx-auto'>
+          <div className='fixed left-[17px] w-1/5 bg-white shadow-lg' >Start</div>
+            <div className=' w-3/5 bg-white shadow-lg' >Middle</div>
+            <div className ='fixed right-[12px] w-1/5 shadow-lg bg-white'>End</div>
 
       </div>
-      {store.isAuth? <div>Welcome,  {store.user.email} </div> : <div>bye</div>}
-      { store.isAuth? <div>{moment(parseInt(store.user.createdAt)).format('DD MM, YYYY, HH:MM:SS')} </div> : <div>bye</div>}
-      {store.isAuth ?<button onClick = {getUsers}>Get user</button> : ''}
-      <div>
-        {siteUsers.map(user=>(
-          <div key={user._id} >{user.email}</div>
-        ))}
-      </div>
+
+
     </div>
   )
 }

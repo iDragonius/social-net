@@ -1,7 +1,6 @@
 import React, { useContext } from 'react'
 import Activation from './Activation'
 import { Context } from '../pages/_app'
-
 const Settings = () => {
     const {store} = useContext(Context)
     return (

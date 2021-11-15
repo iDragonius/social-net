@@ -1,6 +1,6 @@
 import React, {useContext, useRef, useState, useEffect} from 'react'
 import Head from 'next/head'
-import Navbar from '../components/Navbar'
+import Navbar from '../components/navbar/Navbar'
 import { useRouter } from 'next/router'
 import { Context } from './_app'
 import Forget from '../components/Forget'

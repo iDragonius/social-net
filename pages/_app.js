@@ -1,7 +1,7 @@
 import 'tailwindcss/tailwind.css'
 import React, {createContext} from 'react'
 import Store from '../store/store';
-
+import '../styles/global.css'
 const store = new Store();
 
 export const Context = createContext({

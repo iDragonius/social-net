@@ -1,7 +1,7 @@
 import React, {useState, useRef, useContext, useEffect} from 'react'
 import axios  from 'axios'
 import Head from 'next/head'
-import Navbar from '../components/Navbar'
+import Navbar from '../components/navbar/Navbar'
 import { useRouter } from 'next/router'
 import { Context } from './_app'
 import { observer } from 'mobx-react-lite'
