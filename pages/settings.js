@@ -8,6 +8,7 @@ import About from '../components/About'
 import Settings from '../components/Settings'
 import ResetPassword from '../components/ResetPassword'
 import {useRouter} from 'next/router'
+import Link from 'next/link'
 const profile = () => {
     const {store} = useContext(Context)
     const [sections, setSections]  = useState('About')
@@ -52,18 +53,16 @@ const profile = () => {
               <link rel="icon" href="/favicon.ico" />
             </Head>
             <div className='fixed w-full flex justify-between p-3 bg-indigo-800  shadow-xl px-3 z-50'>
-                <h1 className='text-3xl font-bold text-white p-1'>noFace</h1>
+            <Link href='/'>
+                <h1 className='text-3xl font-bold text-white p-1 cursor-pointer'>noFace</h1>
+            
+            </Link>
                 <div className = ' flex  '>
                 {store.isAuth ? <AuthEl type = {'profile'}/> : <NavEl/>}
-
+                
                 </div>
             </div>
-            {/* <div  className = 'fixed w-full flex justify-end p-3 bg-indigo-800  shadow-xl z-50'>
-                {store.isAuth ? <AuthEl type = {'profile'}/> : <NavEl/>}
-
-            </div> */}
-            
-            <div className=' h-min container mx-auto grid grid-cols-5 gap-10 '>
+            <div className=' h-min container mx-auto grid grid-cols-5 gap-10  '>
                 <div  className='fixed w-40 top-28    h-content rounded-md bg-white text-center col-span-1' id='section' >
                     <div onClick={section} className='transition-all duration-300 py-5 font-semibold border-b-2 border-b-gray-200  cursor-pointer bg-indigo-700 text-white font-bold rounded-md' >About</div>
                     <div onClick={section} className='transition-all duration-300 py-5 border-b-2 border-b-gray-200 font-semibold cursor-pointer rounded-md'>Account activation</div>

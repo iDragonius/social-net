@@ -7,19 +7,24 @@ import validator from 'validator';
 import MailService from '../../services/MailService';
 import jwt from 'jsonwebtoken'
 import UserInfo  from '../../models/userInfo'
+import {setCookies} from 'cookies-next'
 const handler = async (req, res) => {
   if (req.method === 'POST') {
-    const { email, password } = req.body;
-    if ( email && password) {
+    const { email, password, nickname } = req.body;
+    if ( email && password && nickname) {
         try {
           const pass = await bcrypt.hash(password, 3)
           const activationLink = uuidv4()
           const validEmail = validator.isEmail(email)
           const validPassword = validator.isLength(password, {min:5, max: 16})
+          const validNickname = validator.isLength(nickname, {min:3, max:16})
           if(!validEmail){
             return res.status(400).json({message:'email'})
           }
           if(!validPassword){
+            return res.status(400).json({message:'pass'})
+          }
+          if(!validNickname){
             return res.status(400).json({message:'pass'})
           }
           const checkhMail = await User.findOne({email:email})
@@ -42,7 +47,12 @@ const handler = async (req, res) => {
           await MailService.sendActivationMail(email, activationLink)
           await userInfo2.save();
           const TokenModel =await Token.create({user:userDto.id, refreshToken:tokens.refreshToken})
-          const UserInfos = await UserInfo.create({user:userDto.id})
+          const nickValidator = await UserInfo.findOne({nickname:nickname})
+          if(nickValidator){
+            return res.status(400).json({message:'такой пользователь уже существует'})
+          }
+          const UserInfos = await UserInfo.create({user:userDto.id, nickname:nickname})
+
           return res.json({status:'correct'});
         } catch (error) {
           return res.status(500).send(error.message);

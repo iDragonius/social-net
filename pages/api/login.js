@@ -45,7 +45,7 @@ const login = async (req,res)=> {
             userToken = tokenModel
         }
         const userInfos = await UserInfo.findOne({user:userDto.id})
-        setCookies('refreshToken', tokens.refreshToken, {req,res,maxAge: 30*24*60*60*100, httpOnly: true})
+        setCookies('refreshToken', tokens.refreshToken, {req,res,maxAge: 60*24*60*60*100, httpOnly: true})
 
         res.json({...tokens,userInfo:userDto, userAbout:userInfos})
     } else {

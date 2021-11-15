@@ -10,12 +10,13 @@ const Registration = () => {
     const {store} = useContext(Context)
     const emailRef =useRef()
     const passwordRef =useRef()
+    const nickanmeRef = useRef()
     const router = useRouter()
     const [status, setStatus] = useState(true)
     const regUser = async (e) =>{
       e.preventDefault()
 
-      store.registration(emailRef.current.value, passwordRef.current.value) 
+      store.registration(emailRef.current.value, passwordRef.current.value, nickanmeRef.current.value.trim()  ) 
               .then(()=>{
                 if(store.status === 200){
                   router.push('/activation')
@@ -57,6 +58,15 @@ const Registration = () => {
                       Registration
             </div>
             <form  action = '' className = 'flex flex-col '>
+            <input 
+                type='text' 
+                placeholder= 'Nickname' 
+                className = { status 
+                              ?  'transition duration-300 px-10 py-5 text-blue-800 placeholder-blue-700 font-bold font-mono text-xl rounded-xl bg-white  focus:bg-blue-900 focus:text-white outline-none mt-10'
+                              : ' transition border-2 border-red-600 duration-300 px-10 py-5 text-red-600 placeholder-red-700  font-bold font-mono text-xl rounded-xl bg-white  outline-none mt-10'
+                            }
+                ref={nickanmeRef}
+                />
               <input 
                 type='text' 
                 placeholder= 'Email' 
