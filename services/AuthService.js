@@ -18,4 +18,8 @@ export default class AuthService {
         return $api.post('/logout')
     }
 
+    static async getPosts(){
+        return $api.get('/posts')
+    }
+
 }

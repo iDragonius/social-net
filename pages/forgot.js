@@ -41,7 +41,7 @@ const forgot = () => {
       }
 
     return (
-        <div className="flex flex-col items-center justify-center min-h-screen py-2 bg-indigo-800    ">
+        <div className="flex flex-col items-center justify-center min-h-screen py-2 bg-purple-800    ">
             <Head>
               <title>Forgot password</title>
               <link rel="icon" href="/favicon.ico" />
@@ -51,11 +51,11 @@ const forgot = () => {
               <input 
                 type='text' 
                 placeholder= 'Email' 
-                className = 'transition duration-300 px-10 py-5 text-blue-800 placeholder-blue-700 font-bold font-mono text-xl rounded-xl bg-white mb-10 focus:bg-blue-900 focus:text-white outline-none mt-10'
+                className = 'transition duration-300 px-10 py-5 text-purple-800 placeholder-purple-700 font-bold font-mono text-xl rounded-xl bg-white mb-10 focus:bg-purple-900 focus:text-white outline-none mt-10'
                 ref={emailRef}
                 />
               
-                <button onClick={forgotPass} className = 'transition duration-300 px-10 py-5 bg-gray-100 rounded-xl font-semibold font-mono text-2xl focus:bg-blue-900 outline-none text-blue-500 focus:text-white'   >
+                <button onClick={forgotPass} className = 'transition duration-300 px-10 py-5 bg-gray-100 rounded-xl font-semibold font-mono text-2xl focus:bg-purple-900 outline-none text-purple-500 focus:text-white'   >
                     Send mail with link
                 </button>
                 

@@ -4,6 +4,7 @@ import Token from "../../models/token";
 import User from "../../models/user"
 import jwt from 'jsonwebtoken'
 import moment from "moment";
+import Post from '../../models/post'
 const about = async (req,res) =>{
     const {refreshToken} = req.cookies
     if (!refreshToken) {
@@ -17,7 +18,7 @@ const about = async (req,res) =>{
     if(!validateToken){
         throw new Error('unauthorizated person')
     }
-    const{nickname,gender,name,surname,birthday,lastChange} = req.body
+    const{gender,name,surname,birthday,lastChange} = req.body
     const UserInfos = await UserInfo.findOne({user:tokenFromDb.user})
     const current = lastChange.split('-')
 
@@ -26,10 +27,9 @@ const about = async (req,res) =>{
     const years = current[0] - lastSplit[0]
     const months = current[1] - lastSplit[1] + years*12
     const days = current[2] - lastSplit[2] + months*30
+    const posts = await Post.find({nickname:UserInfos.nickname})
+
     if(days<90){
-        if(!UserInfos.nickname){
-            nickname ? UserInfos.nickname =nickname : false 
-        }
         if(UserInfos.gender==="Unknown"){
             nickname ? UserInfos.gender =gender : false 
         }
@@ -40,7 +40,7 @@ const about = async (req,res) =>{
             surname ? UserInfos.surname = surname : false
         }
 
-        if(UserInfos.birthday!=='1910-01-01'){
+        if(UserInfos.birthday==='1910-01-01'){
             birthday ? UserInfos.birthday = birthday : false
         }
         await UserInfos.save()
@@ -48,11 +48,13 @@ const about = async (req,res) =>{
         return res.json({message:90-days, changed:true})
     }
     UserInfos.lastChange = lastChange
-    nickname ? UserInfos.nickname =nickname : false 
+
     gender ? UserInfos.gender = gender : false
     name ? UserInfos.name= name : false
     surname ? UserInfos.surname = surname : false
     birthday ? UserInfos.birthday = birthday : false
+
+
     await UserInfos.save()
     res.json({UserInfos})
 }   

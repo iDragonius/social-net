@@ -15,19 +15,25 @@ const login = async (req,res)=> {
         if(!password){
             throw new Error('Введите пароль')
         }
-        const dataUser = await User.findOne({email})
-        if(!dataUser){
-            throw new Error('Такого пользователя не существует')
-        }
-        const isPasswordsEquals = await bcrypt.compare(password, dataUser.password)
+        let data = await User.findOne({email}) //? await User.findOne({email}) : await UserInfo.findOne({nickname:email})
+        if(!data){
+            data = await UserInfo.findOne({nickname:email})
+            if(data){
+                data = await User.findOne({_id:data.user})
+            } else {
+                res.status(400).json({message:'error'})
+            }
+        }        
+        const isPasswordsEquals = await bcrypt.compare(password, data.password)
         if(!isPasswordsEquals){
             throw new Error('Пароль неверный')
         }
+
         const userDto = {
-            email:dataUser.email,
-            id:dataUser._id,
-            isActivated:dataUser.isActivated,
-            createdAt:dataUser.createdAt
+            email:data.email,
+            id:data._id,
+            isActivated:data.isActivated,
+            createdAt:data.createdAt
         }
         const tokenModel = await Token.findOne({user:userDto.id})
         const accessToken = jwt.sign(userDto, process.env.JWT_ACCESS_SECRET, {expiresIn: '15d'})

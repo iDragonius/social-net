@@ -10,7 +10,19 @@ const userInfo = new Schema({
   birthday:{type:String},
   gender:{type:String, default:'Unknown'},
   img: {type:String},
-  lastChange:{type:String}
+  lastChange:{type:String},
+  friends:[{
+    friend:{type:Schema.Types.ObjectId, ref:'User'},
+    nickname:{type:String, required:true},
+    friendFrom:{type:String,required:true},
+    accepted:{type:Boolean,required:true}
+  }],
+  requested:[{
+    friend:{type:Schema.Types.ObjectId, ref:'User'},
+    nickname:{type:String, required:true}
+  }],
+  friendsNumber:{type:Number, default:0},
+  requestsNumber:{type:Number,default:0}
 });
 
 mongoose.models = {};

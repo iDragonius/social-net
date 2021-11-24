@@ -4,6 +4,7 @@ import User from "../../models/user";
 import jwt from "jsonwebtoken"
 import {  setCookies } from 'cookies-next';
 import UserInfo from '../../models/userInfo'
+import Post from "../../models/post";
 const refresh = async (req,res) =>{
     if(req.method === 'GET'){
         const {refreshToken} = req.cookies
@@ -34,6 +35,7 @@ const refresh = async (req,res) =>{
         const tokenData = await Token.findOne({user: userDto.id})
         tokenData.refreshToken = tokens.refresh;
         await tokenData.save();
+        const posts = await Post.find().sort({createdAt:-1})
         setCookies('refreshToken', tokens.refresh, {req,res,maxAge: 30*24*60*60*100, httpOnly: true})
         const userInfos = await UserInfo.findOne({user:userDto.id})
 

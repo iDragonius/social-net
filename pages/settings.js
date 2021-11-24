@@ -14,6 +14,7 @@ const profile = () => {
     const [sections, setSections]  = useState('About')
     const router = useRouter()
     useEffect(() => {
+        store.setProfilePages("MainProfile")
         if(localStorage.getItem('token')){
           store.checkAuth()
           
@@ -24,8 +25,8 @@ const profile = () => {
  
     if(store.isLoading){
     return(
-        <div className='bg-indigo-800 h-screen flex justify-center items-center' >
-            <h1 className = 'text-3xl text-white font-bold'>Loading....</h1>
+        <div className='bg-purple-700 h-screen flex justify-center items-center' >
+            <img src='./img/loader.jpg' alt='loader' />
         </div>
     )
     }
@@ -34,11 +35,11 @@ const profile = () => {
         for(let i = 0;i<section.length;i++){
             if(section[i].innerHTML === e.target.innerHTML){
                 setSections(section[i].innerHTML)
-                section[i].classList.add('bg-indigo-700')
+                section[i].classList.add('bg-purple-700')
                 section[i].classList.add('text-white')
                 section[i].classList.add('font-bold')
             }else{
-                section[i].classList.remove('bg-indigo-700')
+                section[i].classList.remove('bg-purple-700')
                 section[i].classList.remove('text-white')
                 section[i].classList.remove('font-bold')
             }
@@ -52,21 +53,21 @@ const profile = () => {
               <title>Profile</title>
               <link rel="icon" href="/favicon.ico" />
             </Head>
-            <div className='fixed w-full flex justify-between p-3 bg-indigo-800  shadow-xl px-3 z-50'>
+            <div className='fixed w-full flex justify-between py-1 bg-white  shadow-xl px-3 z-50'>
             <Link href='/'>
-                <h1 className='text-3xl font-bold text-white p-1 cursor-pointer'>noFace</h1>
+                <img src='./img/letsmeet2.png' className='ml-4' alt='logo' width='170px'/>
             
             </Link>
                 <div className = ' flex  '>
-                {store.isAuth ? <AuthEl type = {'profile'}/> : <NavEl/>}
+                {store.isAuth ? <AuthEl type = {'settings'}/> : <NavEl/>}
                 
                 </div>
             </div>
             <div className=' h-min container mx-auto grid grid-cols-5 gap-10  '>
                 <div  className='fixed w-40 top-28    h-content rounded-md bg-white text-center col-span-1' id='section' >
-                    <div onClick={section} className='transition-all duration-300 py-5 font-semibold border-b-2 border-b-gray-200  cursor-pointer bg-indigo-700 text-white font-bold rounded-md' >About</div>
-                    <div onClick={section} className='transition-all duration-300 py-5 border-b-2 border-b-gray-200 font-semibold cursor-pointer rounded-md'>Account activation</div>
-                    <div onClick={section} className='transition-all duration-300 py-5 font-semibold cursor-pointer rounded-md'>Reset password</div>
+                    <div onClick={section} className='transition-all duration-300 py-3 font-semibold border-b-2 border-b-gray-200  cursor-pointer bg-purple-700 text-white font-bold rounded-md' >About</div>
+                    <div onClick={section} className='transition-all duration-300 py-3 border-b-2 border-b-gray-200 font-semibold cursor-pointer rounded-md'>Account activation</div>
+                    <div onClick={section} className='transition-all duration-300 py-3 font-semibold cursor-pointer rounded-md'>Reset password</div>
                 </div>
                 
                 <div className=' w-full  rounded-md  text-center col-span-4 flex flex-col align-center relative left-64 ' >

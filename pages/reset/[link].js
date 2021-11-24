@@ -19,7 +19,7 @@ const ResetLink = () => {
     } 
 
     return (
-        <div className="flex flex-col items-center justify-center min-h-screen py-2 bg-indigo-800    ">
+        <div className="flex flex-col items-center justify-center min-h-screen py-2 bg-purple-800    ">
             <Head>
               <title>Forgot password</title>
               <link rel="icon" href="/favicon.ico" />
@@ -29,17 +29,17 @@ const ResetLink = () => {
               <input 
                 type='text' 
                 placeholder= 'New password' 
-                className = 'transition duration-300 px-10 py-5 text-blue-800 placeholder-blue-700 font-bold font-mono text-xl rounded-xl bg-white mb-6 focus:bg-blue-900 focus:text-white outline-none mt-10'
+                className = 'transition duration-300 px-10 py-5 text-purple-800 placeholder-purple-700 font-bold font-mono text-xl rounded-xl bg-white mb-6 focus:bg-purple-900 focus:text-white outline-none mt-10'
                 ref={password}
                 />
               <input 
                 type='text' 
                 placeholder= 'Confirm password' 
-                className = 'transition duration-300 px-10 py-5 text-blue-800 placeholder-blue-700 font-bold font-mono text-xl rounded-xl bg-white mb-5 focus:bg-blue-900 focus:text-white outline-none '
+                className = 'transition duration-300 px-10 py-5 text-purple-800 placeholder-purple-700 font-bold font-mono text-xl rounded-xl bg-white mb-5 focus:bg-purple-900 focus:text-white outline-none '
                 ref={confirmPassword}
                 />
               
-                <button onClick={save} className = 'transition duration-300 px-10 py-5 bg-gray-100 rounded-xl font-semibold font-mono text-2xl focus:bg-blue-900 outline-none text-blue-500 focus:text-white'   >
+                <button onClick={save} className = 'transition duration-300 px-10 py-5 bg-gray-100 rounded-xl font-semibold font-mono text-2xl focus:bg-purple-900 outline-none text-purple-500 focus:text-white'   >
                     Save password
                 </button>
                 
