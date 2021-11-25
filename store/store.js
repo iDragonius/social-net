@@ -17,7 +17,7 @@ export default class Store {
     post=0;
     commentView= false;
     userProfile={}
-    sendingStatus = false;
+    sendingStatus = true;
     userFriends =[];
     profilePages = 'MainProfile'
     currentUser =0
@@ -83,6 +83,9 @@ export default class Store {
     }
     setFriendStatus(bool) {
         this.friendStatus =bool
+    }
+    setSendingStatus(bool) {
+        this.sendingStatus = bool
     }
     async login(email, password){
         try {

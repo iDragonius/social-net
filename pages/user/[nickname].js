@@ -14,19 +14,16 @@ const UserProfile = () => {
     const {store} = useContext(Context)
     
     useEffect(async () => {
+        store.setProfilePages('MainProfile')
         document.body.classList.remove('overflow-y-hidden')
-        store.checkAuth()
+        await store.checkAuth()
       }, [])
 
     useEffect( async () => {
-        $api.get('/user-info')
-                    .then((response)=>{
-                            store.setUserInfo(response.data.userInfo)
-                            store.setFriends(response.data.userInfo.friends)
-                            store.setRequested(response.data.userInfo.requested )
-                        })
- 
-        store.getUser(location.href.substring(location.href.lastIndexOf('/')).slice(1))
+       await  store.getUser(location.href.substring(location.href.lastIndexOf('/')).slice(1))
+
+
+
 
     }, [store.currentUser])
       if(store.isLoading){
@@ -63,7 +60,7 @@ const UserProfile = () => {
                         {store.profilePages==='Friends'?<UserFriends/>:<div></div>}
                         {store.profilePages==='MainProfile'?<MainProfile/>:<div></div>}
                     </div>       
-                    <div className='col-span-3 bg-white '>
+                    <div className='col-span-3  '>
 
                     </div>       
                 </div>

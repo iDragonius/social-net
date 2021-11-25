@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const API_URL = 'http://localhost:3000/api'
+export const API_URL = "https://next-mongo-beryl.vercel.app/api"
 
 const $api = axios.create({
     withCredentials:true,

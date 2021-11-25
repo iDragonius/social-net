@@ -11,7 +11,12 @@ const UserFriends = () => {
     const newUser = (e) =>{
         store.setCurrentUser(store.currentUser+1);
     }   
-    useEffect(()=>{
+    useEffect(  ()=>{
+        // await $api.get('/user-info')
+        // .then((response)=>{
+        //         store.setRequested(response.data.userInfo.requested )
+
+        //     })
         setFr(store.requested)
     },[])
 
@@ -24,14 +29,8 @@ const UserFriends = () => {
 
     const deleteRequest = async (e) =>{
         e.preventDefault()
-        // if(e.target.innerHTML === 'Add friend') return
 
-        console.log(e.target);
-        // e.target.removeAttribute('onclick')
 
-        // e.target.classList.remove('bg-gray-300')
-        // e.target.classList.add('text-white','bg-purple-600')
-        // e.target.innerHTML = 'Add friend'
         await $api.post('/delete-request',{
             nickname:e.target.parentNode.parentNode.childNodes[0].innerHTML
         }).then((response)=>{
@@ -43,20 +42,13 @@ const UserFriends = () => {
     }
 
     const addFriend = async(e) =>{
-
         e.preventDefault()
-        // e.target.classList.add('bg-gray-300')
-        // e.target.classList.remove('text-white','bg-purple-600')
-        // e.target.innerHTML = 'Request sent'
-        
-        console.log(e.target);
         await $api.post('/add-friend',{
             nickname:e.target.parentNode.parentNode.childNodes[0].innerHTML,
             friendFrom:moment().format('MM-DD-YYYY-HH-mm-ss')
         }).then((response)=>{
             console.log(response);
             store.setRequested(response.data.user.requested)
-
             setFr(store.requested)
         })
     }

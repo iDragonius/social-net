@@ -2,6 +2,7 @@ import { observer } from 'mobx-react-lite'
 import moment, { min } from 'moment'
 import React, {useContext, useEffect, useRef, useState} from 'react'
 import $api from '../../http'
+import { API_URL } from '../../http'
 import {Context} from '../../pages/_app'
 import Link from 'next/link'
 import HomePageComments from './rightBar/HomePageComments'
@@ -11,9 +12,9 @@ const HomePage = () => {
     const {store} = useContext(Context)
     const [data, setData] = useState(0)
     const create = async (e) =>{
-      
+      console.log(API_URL );
       e.preventDefault()
-      await $api.post('/post-creating', {
+      await $api.post(`/post-creating`, {
         nickname:store.userInfo.nickname,
         content:content.current.value,
         createdId:moment(),

@@ -4,15 +4,21 @@ import $api from '../../../http'
 import moment from 'moment'
 import time from '../../../utility/time'
 import { observer } from 'mobx-react'
+import { set } from 'mongoose'
 const MainProfile = () => {
     const {store} = useContext(Context)
     const [data, setData] = useState(0)
+    const [p, setP] = useState([])
     const content = useRef()
     useEffect(async  () => {
        await $api.post('user-posts',{
             nickname: store.userProfile.nickname
         })
-        .then((response)=> store.setUserPosts(response.data.posts))
+        .then((response)=>{ 
+            store.setUserPosts(response.data.posts)
+            setP(store.userPosts)    
+        
+        })
     }, [data])
     const create = async (e) =>{
       
@@ -23,7 +29,8 @@ const MainProfile = () => {
           createdId:moment(),
           createdAt:moment().format('MM-DD-YYYY-HH-mm-ss')
         }).then(response => {
-            setData((data)=>data++)
+            
+            setData(response.data.post.createdId)
             console.log(data);
           content.current.value=''
         })
@@ -57,7 +64,7 @@ const MainProfile = () => {
             }
             </div>
             <div className='mt-5'>
-                {store.userPosts.map((post,index)=>(
+                {p.map((post,index)=>(
                     <div   key={post.createdId} className=' rounded-lg  shadow-lg flex flex-col mb-4 '>
                     <div className='bg-purple-600 py-1 px-3 rounded-t-lg  font-semibold  text-white cursor-pointer'>
                         {post.nickname}

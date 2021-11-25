@@ -12,7 +12,7 @@ const Friends = ({stat}) => {
     const [number, setNumber] = useState(0)
     const [status, setStatus] = useState(store.stat)
     useEffect(async ()=>{
-
+      store.setStat("Friends")
       document.body.classList.remove('overflow-y-hidden')
 
     },[number])
@@ -113,7 +113,7 @@ const Friends = ({stat}) => {
                   </div>  }
 
             </div>
-          )):<h1>You dont have Friends :(</h1> }
+          )):<h1 className='px-5 py-2 bg-white text-purple-700 font-semibold rounded-md'>{store.stat === "Friends" ? 'You dont have friends ' : 'You dont have requests'}:(</h1> }
 
       </div>
     )

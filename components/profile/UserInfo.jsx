@@ -7,13 +7,23 @@ import moment from 'moment'
 const UserInfo = () => {
     const {store} = useContext(Context)
     const [col, setColor] = useState('bg-purple-600')
-    const [data, setData] = useState(0)
     const[stat,setStat] = useState(false)
-    useEffect(()=>{
-        randomizer()
-        setStat(store.userInfo?.requested?.findIndex(index=>index.nickname === store.userProfile.nickname)>-1)
+    useEffect( async ()=>{
+        await $api.get('/user-info')
+        .then((response)=>{
+                store.setUserInfo(response.data.userInfo)
+                store.setFriends(response.data.userInfo.friends)
+                store.setRequested(response.data.userInfo.requested )
 
-    },[data])
+            })
+        store.setProfilePages('MainProfile')
+
+        store.setSendingStatus(store.userInfo?.requested?.findIndex(index=>index.nickname ===store.userProfile?.nickname)>-1)
+
+        randomizer()
+         setStat(store.sendingStatus)
+        console.log(stat);
+    },[])
     const addFriend = async(e)=>{
         e.preventDefault()
         await $api.post('/add-friend',{
@@ -100,29 +110,3 @@ export default observer(UserInfo)
 
 
 
-
-// {store.userProfile.nickname !== store.userInfo.nickname?
-//     <div>
-//         {stat ?
-                
-//                     <div>
-//                         { store.friendStatus ?
-//                             <button onClick={deleteRequest} className='bg-gray-300 w-full mt-4 font-semibold py-1 rounded-md'>
-//                                 Request sent
-//                             </button>  
-//                             :
-
-//                     }
-//                     </div>
-//                     :
-
-
-    
-    
-    
-//     }
-
-//     </div>
-//     :
-//     <div></div>
-// }
