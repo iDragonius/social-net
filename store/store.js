@@ -139,7 +139,7 @@ export default class Store {
     async checkAuth() {
         this.setLoading(true);
         try {
-            const response = await axios.get(`http://localhost:3000/api/refresh`, {withCredentials: true})
+            const response = await axios.get(`https://next-mongo-beryl.vercel.app/api/refresh`, {withCredentials: true})
             window.localStorage.setItem('token', response.data.accessToken);
             this.setActivated(response.data.userInfo.isActivated)
             this.setAuth(true);
@@ -157,7 +157,7 @@ export default class Store {
     async getPosts(){
         this.setLoading(true)
         try {
-            const response = await axios.get(`http://localhost:3000/api/posts`, {withCredentials: true})
+            const response = await axios.get(`https://next-mongo-beryl.vercel.app/api/posts`, {withCredentials: true})
             this.setPosts(response.data.posts)
         } catch(e){
             console.log(e);
