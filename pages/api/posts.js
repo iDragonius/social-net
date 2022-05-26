@@ -18,7 +18,7 @@ const postsFind = async (req,res) =>{
            return res.status(400).json({message:'3'})
         }
 
-        const post = await Post.find().sort({createdId:-1}).limit(10)
+        const post = await Post.find().sort({createdId:-1})
         res.json({posts:post})
     } 
 }   

@@ -126,7 +126,7 @@ const About = () => {
                 </div>
                 <div className='flex w-8/12 mb-5  self-center '>
                     <div className = 'w-[300px] font-bold text-lg py-2 px-4 bg-purple-600 text-white rounded-md z-10'>Account activation</div>
-                    <div className = 'cursor-auto font-semibold w-11/12 text-lg py-2 px-5 text-left bg-purple-400 text-white rounded-md outline-none z-0 relative right-3'>{store.isActived===false ? 'The account is not activated' : "The account activated"}</div>
+                    <div className = 'cursor-auto font-semibold w-11/12 text-lg py-2 px-5 text-left bg-purple-400 text-white rounded-md outline-none z-0 relative right-3'>{!store.user?.isActivated ? 'The account is not activated' : "The account activated"}</div>
                 </div>
                 
                 </div>

@@ -2,17 +2,18 @@ import { observer } from 'mobx-react-lite'
 import moment, { min } from 'moment'
 import React, {useContext, useEffect, useRef, useState} from 'react'
 import $api from '../../http'
-import { API_URL } from '../../http'
 import {Context} from '../../pages/_app'
 import Link from 'next/link'
 import HomePageComments from './rightBar/HomePageComments'
 import time from '../../utility/time'
+import {useRouter} from "next/router";
+
 const HomePage = () => {
   const content = useRef()
+  const router = useRouter()
     const {store} = useContext(Context)
     const [data, setData] = useState(0)
     const create = async (e) =>{
-      console.log(API_URL );
       e.preventDefault()
       await $api.post(`/post-creating`, {
         nickname:store.userInfo.nickname,
@@ -25,9 +26,14 @@ const HomePage = () => {
       })
     }
     useEffect(async ()=>{
+      if(!window.localStorage.getItem('token')) return
       await $api.get('/posts').then((response)=>{
+
         store.setPosts(response.data.posts)
         console.log(response);
+      }).catch(err =>{
+        router.push('/login')
+        store.setLoading(false)
       })
     },[data])
     const viewComment = (e)=>{
@@ -76,7 +82,7 @@ const HomePage = () => {
           
             
           <div className='bg-white rounded-xl   shadow-lg flex flex-col mb-5 mt-[100px]'>
-                <h1 className='text-xl font-semibold py-1 ml-3 '>Tell people how your day went</h1>
+                <h1 className='text-xl font-semibold py-1 ml-3 '>What's new?</h1>
                 <textarea  ref={content} className='w-full px-3  bg-gray-100 outline-none font-semibold pt-2 text-lg max-h-[130px] ' name="" id="" cols="30" rows="4"></textarea>
                 <button onClick={create}  className='py-1 rounded-b-md font-bold text-lg text-white bg-purple-700' >Post</button>
           </div>

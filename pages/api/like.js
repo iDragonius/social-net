@@ -29,7 +29,6 @@ const addFriend = async (req,res) =>{
             commentedPost.likes.user.splice(userLike, 1)
             await commentedPost.save()
             res.json({message:'succesfully'})
-
         } else {
             commentedPost.likes.likes = commentedPost.likes.likes + 1
             commentedPost.likes.user.push(tokenFromDb.user)

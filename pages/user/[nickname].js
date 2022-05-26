@@ -38,7 +38,8 @@ const UserProfile = () => {
         <div className='bg-gray-200 h-full  min-h-screen'>
             <Head>
                 <title>{store.userProfile.nickname}</title>
-                <link rel="icon" href="/favicon.ico" />
+                <link rel="icon" href="/hand-shake.png" width='24px'/>
+
             </Head>
             <div className='fixed w-full flex justify-between p-1 bg-white  shadow-md px-3 z-50'>
             <Link href='/'>

@@ -9,11 +9,13 @@ import $api from '../http/index'
 import HomePage from '../components/mainPage/HomePage'
 import Friends from '../components/mainPage/Friends'
 import FriendsRight from '../components/mainPage/rightBar/FriendsRight'
+import { useRouter } from 'next/router'
 const  Home=()=> {
   const [siteUsers, setSiteUsers] = useState([])
   const [section, setSection]= useState('Home')
   const  {store} = useContext(Context)
   const [index, setIndex] = useState(true)
+  const router = useRouter()
   useEffect(() => {
     document.body.classList.remove('overflow-y-hidden')
     store.setCommentView(false)
@@ -21,6 +23,8 @@ const  Home=()=> {
     if(localStorage.getItem('token')){
       store.checkAuth()
       
+    }else{
+      router.push('/login')
     }
   }, [])
   const getFriends = async ()=>{
@@ -40,7 +44,7 @@ const  Home=()=> {
     <div  className={ "h-full  min-h-screen  bg-gray-300"}   >
       <Head>
         <title>Letsmeet</title>
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/hand-shake.png" width='24px'/>
       </Head>
       <div className='fixed w-full flex justify-between p-1 bg-white  shadow-md px-3 z-50'>
             <Link href='/'>

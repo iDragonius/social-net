@@ -1,9 +1,13 @@
 import React, {useRef} from 'react'
 import Head from 'next/head'
 import $api from '../../http'
+import { useRouter } from 'next/router'
+
 const ResetLink = () => {
     const password = useRef()
     const confirmPassword =useRef()
+    const router = useRouter()
+
     const save = (e) =>{
         e.preventDefault()
         if(password.current.value !== confirmPassword.current.value) return;
@@ -15,7 +19,12 @@ const ResetLink = () => {
         $api.post('/newpass', {
             password:password.current.value,
             link:link
-        }).then((response)=>console.log(response))
+        }).then((response)=>{
+          console.log(response);
+          console.log(response.status)
+          if(response.status=='200') router.push('/login') 
+           
+        })
     } 
 
     return (

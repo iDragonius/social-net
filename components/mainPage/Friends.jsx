@@ -34,6 +34,7 @@ const Friends = ({stat}) => {
       }).then((response)=>{
         console.log(response);
         store.setFriends(response.data.user.friends)
+        followRef.current.value =''
         setNumber(()=> number+=1)
       })
     }

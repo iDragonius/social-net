@@ -4,7 +4,7 @@ import $api from '../../../http'
 import moment from 'moment'
 import time from '../../../utility/time'
 import { observer } from 'mobx-react'
-import { set } from 'mongoose'
+
 const MainProfile = () => {
     const {store} = useContext(Context)
     const [data, setData] = useState(0)
@@ -20,6 +20,19 @@ const MainProfile = () => {
         
         })
     }, [data])
+    const like = async (e) =>{
+        if(e.target.src === 'http://localhost:3000/img/likeUn.png'){
+            e.target.src = 'http://localhost:3000/img/like.png'
+            e.target.parentNode.parentNode.childNodes[0].childNodes[0].innerHTML = parseInt(e.target.parentNode.parentNode.childNodes[0].childNodes[0].innerHTML) + 1
+        } else {
+            e.target.src = 'http://localhost:3000/img/likeUn.png'
+            e.target.parentNode.parentNode.childNodes[0].childNodes[0].innerHTML = parseInt(e.target.parentNode.parentNode.childNodes[0].childNodes[0].innerHTML)  -1
+
+        }
+        await $api.post('/like',{
+            post:store.userPosts[e.target.parentNode.parentNode.childNodes[1].id]._id
+        })
+    }
     const create = async (e) =>{
       
         e.preventDefault()
@@ -78,7 +91,7 @@ const MainProfile = () => {
                     <div className='flex'>
                         <div onClick={()=>(true)} className='flex ml-2 py-2'>
                             <span className=' px-2 z-0  w-3 mr-2  rounded-b-lg text-md opacity-70 font-semibold  hover:opacity-90 cursor-pointer'>{post.likes.likes}</span>
-                            <img    src={post.likes.user.indexOf(store.userInfo.user)>-1 ?'http://localhost:3000/img/like.png':'http://localhost:3000/img/likeUn.png'}  alt="Like" width={24} height={24} />
+                            <img onClick={like}    src={post.likes.user.indexOf(store.userInfo.user)>-1 ?'http://localhost:3000/img/like.png':'http://localhost:3000/img/likeUn.png'}  alt="Like" width={24} height={24} />
                         </div>
                         <div id={index}  className='flex px-3 z-0  rounded-b-lg text-sm opacity-70 font-semibold mt-[10px] hover:opacity-90 cursor-pointer'>
                             {post.commentNumber} comments
